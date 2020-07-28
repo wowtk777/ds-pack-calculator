@@ -21,23 +21,14 @@
     export default {
         name: 'ResultGrid',
         props: {
-            type: {
-                type: Number,
-                coerce: str => parseInt(str)
-            },
-            requiredResources: {
-                type: Number,
-                coerce: str => parseInt(str)
-            },
-            readyResources: {
-                type: Number,
-                coerce: str => parseInt(str)
-            },
+            type: Object,
+            requiredResources: Number,
+            readyResources: Number,
         },
         computed: {
             packageInfo: function () {
-                let preparePackages = buildPreparePackages(this.type);
-                let delta = this.requiredResources - this.readyResources;
+                let preparePackages = buildPreparePackages(this.type.smallestAmount);
+                let delta = Math.max(0, this.requiredResources - this.readyResources);
                 let resourcesLeft =
                     Math.ceil(delta / preparePackages.smallest) *
                     preparePackages.smallest;

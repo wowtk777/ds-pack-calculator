@@ -6,15 +6,29 @@
             <br/>
             <label for="ready-resources">Существующее количество</label>
             <input id="ready-resources" v-model="readyResources" type="text"/>
+            <br/>
+
+            <div v-for="t of types" :key="t.name">
+                <input id="type" type="radio" name="type" v-bind:value="t" checked
+                       v-model="type">
+                <label for="type">{{ t.name }}</label>
+            </div>
         </form>
         <ResultGrid v-bind:required-resources="requiredResourcesNum"
                     v-bind:ready-resources="readyResourcesNum"
-                    :type="50"/>
+                    v-bind:type="type"/>
     </div>
 </template>
 
 <script>
     import ResultGrid from "./ResultGrid";
+
+    let types = [
+        {name: 'Смолы', smallestAmount: '40'},
+        {name: 'Металлы', smallestAmount: '50'},
+        {name: 'Керамика', smallestAmount: '80'},
+        {name: 'Спецсплавы', smallestAmount: '60'},
+    ]
 
     export default {
         name: 'InputForm',
@@ -22,6 +36,8 @@
             return {
                 requiredResources: 0,
                 readyResources: 0,
+                type: types[1],
+                types
             }
         },
         computed: {
