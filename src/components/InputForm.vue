@@ -7,7 +7,9 @@
             <label for="ready-resources">Существующее количество</label>
             <input id="ready-resources" v-model="readyResources" type="text"/>
         </form>
-        <ResultGrid v-bind:required-resources="requiredResources" v-bind:ready-resources="readyResources" type="50"/>
+        <ResultGrid v-bind:required-resources="requiredResourcesNum"
+                    v-bind:ready-resources="readyResourcesNum"
+                    :type="50"/>
     </div>
 </template>
 
@@ -21,6 +23,14 @@
                 requiredResources: 0,
                 readyResources: 0,
             }
+        },
+        computed: {
+            requiredResourcesNum() {
+                return parseInt(this.requiredResources)
+            },
+            readyResourcesNum() {
+                return parseInt(this.readyResources)
+            },
         },
         components: {
             ResultGrid

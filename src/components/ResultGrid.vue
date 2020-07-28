@@ -1,30 +1,57 @@
 <template>
     <div class="result-grid">
-        <div v-for="pckg in packages" :key="pckg.size">
-            {{ pckg.size }}: {{ pckg.count }}
+        <div v-for="pckg in packageInfo.packages" :key="pckg.size" class="result-grid-packages">
+            <div class="result-grid-size">{{ pckg.size }}:</div>
+            <div class="result-grid-count">{{ pckg.count }}</div>
+        </div>
+        <div class="result-grid-over-resources">
+            Перерасход: {{ packageInfo.overResources }}
         </div>
     </div>
 </template>
 
 <script>
-    let preparePackages = function (type) {
-        return [1, 2, 4, 8, 12, 16, 20].map(x => x * type)
+    let buildPreparePackages = function (type) {
+        let sizes = [1, 2, 4, 8, 12, 16, 20].map(x => x * type);
+        return {
+            smallest: sizes[0],
+            sizes: sizes.reverse()
+        }
     }
     export default {
         name: 'ResultGrid',
         props: {
-            type: Number,
-            requiredResources: Number,
-            readyResources: Number,
+            type: {
+                type: Number,
+                coerce: str => parseInt(str)
+            },
+            requiredResources: {
+                type: Number,
+                coerce: str => parseInt(str)
+            },
+            readyResources: {
+                type: Number,
+                coerce: str => parseInt(str)
+            },
         },
         computed: {
-            packages: function () {
-                return preparePackages(this.type).map(function (x) {
-                    return {
-                        size: x,
-                        count: 0
-                    }
-                })
+            packageInfo: function () {
+                let preparePackages = buildPreparePackages(this.type);
+                let delta = this.requiredResources - this.readyResources;
+                let resourcesLeft =
+                    Math.ceil(delta / preparePackages.smallest) *
+                    preparePackages.smallest;
+                let overResources = resourcesLeft - delta
+                console.log("preparePackages.smallest = %s; delta=%s; resourcesLeft=%s", preparePackages.smallest, delta, resourcesLeft)
+
+                let packages = []
+                for (let size of preparePackages.sizes) {
+                    let count = Math.floor(resourcesLeft / size)
+                    packages.push({size, count})
+                    resourcesLeft = resourcesLeft - size * count
+                }
+
+                return {overResources, packages}
             }
         }
     }
