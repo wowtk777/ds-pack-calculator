@@ -24,10 +24,10 @@
     import ResultGrid from "./ResultGrid";
 
     let types = [
-        {name: 'Смолы', smallestAmount: '40'},
-        {name: 'Металлы', smallestAmount: '50'},
-        {name: 'Керамика', smallestAmount: '80'},
-        {name: 'Спецсплавы', smallestAmount: '60'},
+        {name: 'Смолы', smallestAmount: '40', smallestWeight: 10},
+        {name: 'Металлы', smallestAmount: '50', smallestWeight: 15},
+        {name: 'Керамика', smallestAmount: '80', smallestWeight: 13},
+        {name: 'Спецсплавы', smallestAmount: '60', smallestWeight: 12},
     ]
 
     export default {

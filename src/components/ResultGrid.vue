@@ -1,21 +1,54 @@
 <template>
     <div class="result-grid">
-        <div v-for="pckg in packageInfo.packages" :key="pckg.size" class="result-grid-packages">
-            <div class="result-grid-size">{{ pckg.size }}:</div>
-            <div class="result-grid-count">{{ pckg.count }}</div>
+        <div v-for="cargo in cargoInfo.packages" :key="cargo.size" class="result-grid-packages">
+            <div class="result-grid-size">{{ cargo.amount }} ({{ cargo.marker }}) {{ cargo.weight }} kg:</div>
+            <div class="result-grid-count">{{ cargo.count }}</div>
         </div>
         <div class="result-grid-over-resources">
-            Перерасход: {{ packageInfo.overResources }}
+            Перерасход: {{ cargoInfo.overResources }}
+        </div>
+        <div class="result-grid-weight">
+            Масса: {{ cargoInfo.weight }} kg
+        </div>
+        <div class="result-grid-volume-size">
+            Объём: {{ cargoInfo.volumeSize }}S
         </div>
     </div>
 </template>
 
 <script>
+    let convertSizeToInfo = function (size) {
+        let volumeSize = size > 4 ? 6 : size;
+        let marker = '';
+
+        switch (volumeSize) {
+            case 1:
+                marker = 'S'
+                break;
+            case 2:
+                marker = 'M'
+                break;
+            case 4:
+                marker = 'L'
+                break;
+            case 6:
+                marker = 'XL'
+                break;
+        }
+
+        return {size, marker, volumeSize}
+    }
+
     let buildPreparePackages = function (type) {
-        let sizes = [1, 2, 4, 8, 12, 16, 20].map(x => x * type);
+        let packageInfos = [1, 2, 4, 8, 12, 16, 20].map(convertSizeToInfo).map(x => ({
+                amount: type.smallestAmount * x.size,
+                weight: type.smallestWeight * x.size,
+                ...x
+            }
+        ));
         return {
-            smallest: sizes[0],
-            sizes: sizes.reverse()
+            smallest: packageInfos[0],
+            packageInfos: packageInfos.reverse()
         }
     }
     export default {
@@ -26,23 +59,28 @@
             readyResources: Number,
         },
         computed: {
-            packageInfo: function () {
-                let preparePackages = buildPreparePackages(this.type.smallestAmount);
+            cargoInfo: function () {
+                let preparePackages = buildPreparePackages(this.type);
                 let delta = Math.max(0, this.requiredResources - this.readyResources);
                 let resourcesLeft =
-                    Math.ceil(delta / preparePackages.smallest) *
-                    preparePackages.smallest;
+                    Math.ceil(delta / preparePackages.smallest.amount) *
+                    preparePackages.smallest.amount;
                 let overResources = resourcesLeft - delta
-                console.log("preparePackages.smallest = %s; delta=%s; resourcesLeft=%s", preparePackages.smallest, delta, resourcesLeft)
+                let weight = 0
+                let volumeSize = 0
+                console.log("preparePackages.smallest.amount = %s; delta=%s; resourcesLeft=%s", preparePackages.smallest.amount, delta, resourcesLeft)
 
                 let packages = []
-                for (let size of preparePackages.sizes) {
-                    let count = Math.floor(resourcesLeft / size)
-                    packages.push({size, count})
-                    resourcesLeft = resourcesLeft - size * count
+                for (let packageInfo of preparePackages.packageInfos) {
+                    let amount = packageInfo.amount
+                    let count = Math.floor(resourcesLeft / amount)
+                    packages.push({count, ...packageInfo})
+                    resourcesLeft = resourcesLeft - amount * count
+                    weight += packageInfo.weight * count
+                    volumeSize += packageInfo.volumeSize * count
                 }
 
-                return {overResources, packages}
+                return {overResources, packages, weight, volumeSize}
             }
         }
     }
