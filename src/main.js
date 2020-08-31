@@ -1,8 +1,10 @@
 import Vue from 'vue'
-import App from './App.vue'
+import DSPackCalculator from './DSPackCalculator.vue'
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  vuetify,
+  render: h => h(DSPackCalculator)
 }).$mount('#app')

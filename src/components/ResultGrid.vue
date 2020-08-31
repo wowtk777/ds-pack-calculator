@@ -1,18 +1,50 @@
 <template>
     <div class="result-grid">
-        <div v-for="cargo in cargoInfo.packages" :key="cargo.size" class="result-grid-packages">
-            <div class="result-grid-size">{{ cargo.amount }} ({{ cargo.marker }}) {{ cargo.weight }} kg:</div>
-            <div class="result-grid-count">{{ cargo.count }}</div>
-        </div>
-        <div class="result-grid-over-resources">
-            Перерасход: {{ cargoInfo.overResources }}
-        </div>
-        <div class="result-grid-weight">
-            Масса: {{ cargoInfo.weight }} kg
-        </div>
-        <div class="result-grid-volume-size">
-            Объём: {{ cargoInfo.volumeSize }}S
-        </div>
+        <v-container>
+            <v-row>
+                <v-simple-table>
+                    <template v-slot:default>
+                        <thead>
+                        <tr>
+                            <th class="text-left" colspan="2">Размер</th>
+                            <th class="text-left">Вес</th>
+                            <th class="text-left">Количество</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="cargo in cargoInfo.packages" :key="cargo.size">
+                            <td>{{ cargo.amount }}</td>
+                            <td>({{ cargo.marker }})</td>
+                            <td>{{ cargo.weight }} kg</td>
+                            <td>{{ cargo.count }} шт</td>
+                        </tr>
+                        </tbody>
+                    </template>
+                </v-simple-table>
+            </v-row>
+        </v-container>
+        <v-container>
+            <v-row>
+                <v-simple-table>
+                    <template v-slot:default>
+                        <tbody>
+                        <tr>
+                            <td>Перерасход:</td>
+                            <td>{{ cargoInfo.overResources }}</td>
+                        </tr>
+                        <tr>
+                            <td>Масса:</td>
+                            <td>{{ cargoInfo.weight }} kg</td>
+                        </tr>
+                        <tr>
+                            <td>Объём:</td>
+                            <td>{{ cargoInfo.volumeSize }}S</td>
+                        </tr>
+                        </tbody>
+                    </template>
+                </v-simple-table>
+            </v-row>
+        </v-container>
     </div>
 </template>
 
