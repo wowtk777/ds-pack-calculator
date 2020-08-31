@@ -1,7 +1,7 @@
 <template>
     <v-container class="input-form">
-        <v-row class="align-center">
-            <v-col cols="4">
+        <v-row>
+            <v-col cols="2">
                 <v-form>
                     <v-text-field label="Необходимое количество" v-model="requiredResources"/>
                     <v-text-field label="Существующее количество" v-model="readyResources"/>
@@ -11,9 +11,7 @@
                     </v-radio-group>
                 </v-form>
             </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="4">
+            <v-col cols="auto">
                 <ResultGrid v-bind:required-resources="requiredResourcesNum"
                             v-bind:ready-resources="readyResourcesNum"
                             v-bind:type="type"/>

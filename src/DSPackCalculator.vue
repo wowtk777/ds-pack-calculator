@@ -1,7 +1,9 @@
 <template>
     <v-app class="align-center d-inline-flex">
         <v-main>
-            <InputForm/>
+            <v-responsive max-width="600 px">
+                <InputForm/>
+            </v-responsive>
         </v-main>
     </v-app>
 </template>
@@ -25,6 +27,5 @@
   /*text-align: center;*/
   /*color: #2c3e50;*/
   /*margin-top: 60px;*/
-    width: 70%
 }
 </style>
