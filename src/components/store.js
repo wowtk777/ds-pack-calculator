@@ -6,22 +6,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        requiredResources: 0,
-        readyResources: 0,
-        material: defaultMaterial
+        form: {
+            requiredResources: 0,
+            readyResources: 0,
+            material: defaultMaterial
+        }
     },
     getters: {
-        requiredResources: state => state.requiredResources,
-        readyResources: state => state.readyResources,
-        material: state => state.material
+        requiredResources: state => state.form.requiredResources,
+        readyResources: state => state.form.readyResources,
+        material: state => state.form.material
     },
     mutations: {
         updateForm(state, payload) {
-            state = {
-                ...state,
+            state.form = {
+                ...state.form,
                 ...payload
             }
-            console.log("New state = %s", JSON.stringify(state))
+            console.log("updateForm: new state = %s", JSON.stringify(state.form))
         }
     }
 })

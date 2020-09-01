@@ -22,7 +22,7 @@
         computed: {
             requiredResources: {
                 get() {
-                    return this.$store.state.requiredResources
+                    return this.$store.getters.requiredResources
                 },
                 set(requiredResources) {
                     requiredResources = parseInt(requiredResources)
@@ -31,7 +31,7 @@
             },
             readyResources: {
                 get() {
-                    return this.$store.state.readyResources
+                    return this.$store.getters.readyResources
                 },
                 set(readyResources) {
                     readyResources = parseInt(readyResources)
@@ -40,7 +40,7 @@
             },
             material: {
                 get() {
-                    return this.$store.state.material
+                    return this.$store.getters.material
                 },
                 set(material) {
                     this.$store.commit('updateForm', {material})

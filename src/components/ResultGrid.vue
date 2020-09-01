@@ -49,6 +49,8 @@
 </template>
 
 <script>
+    import store from "./store";
+
     let convertSizeToInfo = function (size) {
         let volumeSize = size > 4 ? 6 : size;
         let marker = '';
@@ -87,8 +89,8 @@
         name: 'ResultGrid',
         computed: {
             cargoInfo: function () {
-                let preparePackages = buildPreparePackages(this.$store.getters.material);
-                let delta = Math.max(0, this.$store.getters.requiredResources - this.$store.getters.readyResources);
+                let preparePackages = buildPreparePackages(store.getters.material);
+                let delta = Math.max(0, store.getters.requiredResources - store.getters.readyResources);
                 let resourcesLeft =
                     Math.ceil(delta / preparePackages.smallest.amount) *
                     preparePackages.smallest.amount;
