@@ -1,56 +1,51 @@
 <template>
-    <v-container class="input-form">
-        <v-row>
-            <v-col cols="2">
-                <v-form>
-                    <v-text-field label="Необходимое количество" v-model="requiredResources"/>
-                    <v-text-field label="Существующее количество" v-model="readyResources"/>
+    <v-form>
+        <v-text-field label="Необходимое количество" v-model="requiredResources"/>
+        <v-text-field label="Существующее количество" v-model="readyResources"/>
 
-                    <v-radio-group v-model="type">
-                        <v-radio v-for="t of types" :key="t.name" :label="t.name" :value="t"></v-radio>
-                    </v-radio-group>
-                </v-form>
-            </v-col>
-            <v-col cols="auto">
-                <ResultGrid v-bind:required-resources="requiredResourcesNum"
-                            v-bind:ready-resources="readyResourcesNum"
-                            v-bind:type="type"/>
-            </v-col>
-        </v-row>
-    </v-container>
+        <v-radio-group v-model="material">
+            <v-radio v-for="t of materials" :key="t.name" :label="t.name" :value="t"></v-radio>
+        </v-radio-group>
+    </v-form>
 </template>
 
 <script>
-    import ResultGrid from "./ResultGrid";
-
-    let types = [
-        {name: 'Смолы', smallestAmount: '40', smallestWeight: 4},
-        {name: 'Металлы', smallestAmount: '50', smallestWeight: 5},
-        {name: 'Керамика', smallestAmount: '40', smallestWeight: 4},
-        {name: 'Химикаты', smallestAmount: '30', smallestWeight: 3},
-        {name: 'Спецсплавы', smallestAmount: '60', smallestWeight: 6},
-    ]
+    import {materials} from "./materials";
 
     export default {
         name: 'InputForm',
         data: function () {
             return {
-                requiredResources: 0,
-                readyResources: 0,
-                type: types[1],
-                types
+                materials
             }
         },
         computed: {
-            requiredResourcesNum() {
-                return parseInt(this.requiredResources)
+            requiredResources: {
+                get() {
+                    return this.$store.state.requiredResources
+                },
+                set(requiredResources) {
+                    requiredResources = parseInt(requiredResources)
+                    this.$store.commit('updateForm', {requiredResources})
+                }
             },
-            readyResourcesNum() {
-                return parseInt(this.readyResources)
+            readyResources: {
+                get() {
+                    return this.$store.state.readyResources
+                },
+                set(readyResources) {
+                    readyResources = parseInt(readyResources)
+                    this.$store.commit('updateForm', {readyResources})
+                }
             },
-        },
-        components: {
-            ResultGrid
+            material: {
+                get() {
+                    return this.$store.state.material
+                },
+                set(material) {
+                    this.$store.commit('updateForm', {material})
+                }
+            }
         }
     }
 </script>

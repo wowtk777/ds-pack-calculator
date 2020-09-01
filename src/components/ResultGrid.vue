@@ -71,10 +71,10 @@
         return {size, marker, volumeSize}
     }
 
-    let buildPreparePackages = function (type) {
+    let buildPreparePackages = function (material) {
         let packageInfos = [1, 2, 4, 8, 12, 16, 20].map(convertSizeToInfo).map(x => ({
-                amount: type.smallestAmount * x.size,
-                weight: type.smallestWeight * x.size,
+                amount: material.smallestAmount * x.size,
+                weight: material.smallestWeight * x.size,
                 ...x
             }
         ));
@@ -85,15 +85,10 @@
     }
     export default {
         name: 'ResultGrid',
-        props: {
-            type: Object,
-            requiredResources: Number,
-            readyResources: Number,
-        },
         computed: {
             cargoInfo: function () {
-                let preparePackages = buildPreparePackages(this.type);
-                let delta = Math.max(0, this.requiredResources - this.readyResources);
+                let preparePackages = buildPreparePackages(this.$store.getters.material);
+                let delta = Math.max(0, this.$store.getters.requiredResources - this.$store.getters.readyResources);
                 let resourcesLeft =
                     Math.ceil(delta / preparePackages.smallest.amount) *
                     preparePackages.smallest.amount;
