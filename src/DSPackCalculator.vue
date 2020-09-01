@@ -7,8 +7,11 @@
                         <v-col cols="2">
                             <InputForm/>
                         </v-col>
-                        <v-col cols="auto">
+                        <v-col cols="4">
                             <ResultGrid/>
+                        </v-col>
+                        <v-col cols="auto">
+                            <PlanningBoard/>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -20,12 +23,14 @@
 <script>
     import InputForm from './components/InputForm.vue'
     import ResultGrid from './components/ResultGrid.vue'
+    import PlanningBoard from './components/PlanningBoard.vue'
 
     export default {
         name: 'DSPackCalculator',
         components: {
             InputForm,
-            ResultGrid
+            ResultGrid,
+            PlanningBoard
         }
     }
 </script>

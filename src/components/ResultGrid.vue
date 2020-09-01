@@ -22,6 +22,9 @@
                     </template>
                 </v-simple-table>
             </v-row>
+            <v-row>
+                <v-btn value="+" @click="onClick" class="info">+</v-btn>
+            </v-row>
         </v-container>
         <v-container>
             <v-row>
@@ -87,6 +90,15 @@
     }
     export default {
         name: 'ResultGrid',
+        methods: {
+            onClick: function () {
+                let cargoInfo = this.cargoInfo;
+                delete cargoInfo.overResources
+                cargoInfo.material = store.getters.material
+                cargoInfo.packages = cargoInfo.packages.filter(p => p.count)
+                store.commit('addPackage', cargoInfo)
+            }
+        },
         computed: {
             cargoInfo: function () {
                 let preparePackages = buildPreparePackages(store.getters.material);
