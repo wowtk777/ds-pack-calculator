@@ -1,28 +1,23 @@
 <template>
-    <div>
-        <div v-for="b of board" :key="b.index">
-            <PlanningRow v-bind:material="b.material" v-bind:packages="b.packages" v-bind:index="b.index"/>
-        </div>
-    </div>
-
+    <v-container>
+        <v-row>
+            <PlanningTasks/>
+        </v-row>
+        <v-row>
+            <PlanningResume/>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
-    import PlanningRow from "./PlanningRow";
+    import PlanningTasks from "./PlanningTasks";
+    import PlanningResume from "./PlanningResume";
 
     export default {
         name: "PlanningBoard",
-        computed: {
-            board() {
-                let result = this.$store.state.board.map((p, index) => {
-                    return {index, ...p}
-                })
-                console.log("packages on board: %s", JSON.stringify(result))
-                return result
-            }
-        },
         components: {
-            PlanningRow
+            PlanningTasks,
+            PlanningResume
         }
     }
 </script>

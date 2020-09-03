@@ -14,7 +14,7 @@
                         <tbody>
                         <tr v-for="cargo in cargoInfo.packages" :key="cargo.size">
                             <td>{{ cargo.amount }}</td>
-                            <td>({{ cargo.marker }})</td>
+                            <td>({{ cargo.volumeMarker }})</td>
                             <td>{{ cargo.weight }} kg</td>
                             <td>{{ cargo.count }} шт</td>
                         </tr>
@@ -53,36 +53,12 @@
 
 <script>
     import store from "./store";
-
-    let convertSizeToInfo = function (size) {
-        let volumeSize = size > 4 ? 6 : size;
-        let marker = '';
-
-        switch (volumeSize) {
-            case 1:
-                marker = 'S'
-                break;
-            case 2:
-                marker = 'M'
-                break;
-            case 4:
-                marker = 'L'
-                break;
-            case 6:
-                marker = 'XL'
-                break;
-        }
-
-        return {size, marker, volumeSize}
-    }
+    import PackageInfo from "./package-info";
 
     let buildPreparePackages = function (material) {
-        let packageInfos = [1, 2, 4, 8, 12, 16, 20].map(convertSizeToInfo).map(x => ({
-                amount: material.smallestAmount * x.size,
-                weight: material.smallestWeight * x.size,
-                ...x
-            }
-        ));
+        let packageInfos = [1, 2, 4, 8, 12, 16, 20]
+            .map(size => new PackageInfo(size, material))
+
         return {
             smallest: packageInfos[0],
             packageInfos: packageInfos.reverse()
