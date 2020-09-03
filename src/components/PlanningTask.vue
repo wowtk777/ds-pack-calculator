@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card class="float-left ma-2">
         <v-card-text>
             <div>{{ material.name }}</div>
             <div v-for="p of packages" :key="p.size">
