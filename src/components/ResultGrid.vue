@@ -85,7 +85,6 @@
                 let overResources = resourcesLeft - delta
                 let weight = 0
                 let volumeSize = 0
-                console.log("preparePackages.smallest.amount = %s; delta=%s; resourcesLeft=%s", preparePackages.smallest.amount, delta, resourcesLeft)
 
                 let packages = []
                 for (let packageInfo of preparePackages.packageInfos) {

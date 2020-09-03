@@ -1,12 +1,16 @@
 <template>
-    <v-form>
-        <v-text-field label="Необходимое количество" v-model="requiredResources"/>
-        <v-text-field label="Существующее количество" v-model="readyResources"/>
+    <v-container>
+        <v-row>
+            <v-form>
+                <v-text-field label="Необходимое количество" v-model="requiredResources"/>
+                <v-text-field label="Существующее количество" v-model="readyResources"/>
 
-        <v-radio-group v-model="material">
-            <v-radio v-for="t of materials" :key="t.id" :label="t.name" :value="t"></v-radio>
-        </v-radio-group>
-    </v-form>
+                <v-radio-group v-model="material">
+                    <v-radio v-for="t of materials" :key="t.id" :label="t.name" :value="t"></v-radio>
+                </v-radio-group>
+            </v-form>
+        </v-row>
+    </v-container>
 </template>
 
 <script>

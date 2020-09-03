@@ -1,10 +1,10 @@
 <template>
     <v-container>
         <v-row>
-            <PlanningTasks/>
+            <PlanningResume/>
         </v-row>
         <v-row>
-            <PlanningResume/>
+            <PlanningTasks/>
         </v-row>
     </v-container>
 </template>
