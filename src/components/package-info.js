@@ -24,6 +24,29 @@ class PackageInfo {
         this.amount = material.smallestAmount * this.size
         this.weight = material.smallestWeight * this.size
     }
+
+    setupCount(resourcesLeft) {
+        let count = Math.floor(resourcesLeft / this.amount)
+        let deltaAmount = this.amount * count
+        let deltaWeight = this.weight * count
+        let deltaVolumeSize = this.volumeSize * count
+
+        this.count = count
+
+        return {count, deltaAmount, deltaWeight, deltaVolumeSize}
+    }
+
+    clone() {
+        return Object.assign(Object.create(Object.getPrototypeOf(this)), this)
+    }
+
+    get key() {
+        return this.material.id * 100 + this.size
+    }
+
+    aggregate(packageInfo) {
+        this.count += packageInfo.count
+    }
 }
 
 export default PackageInfo;

@@ -26,13 +26,13 @@ export default new Vuex.Store({
             }
             console.log("updateForm: new state = %s", JSON.stringify(state.form))
         },
-        addPackage(state, payload) {
+        addCargoInfo(state, payload) {
             state.board.push(payload)
-            console.log("addPackage: new board = %s", JSON.stringify(state.board))
+            console.log("addCargoInfo: new board = %s", JSON.stringify(state.board))
         },
-        dropPackage(state, payload) {
+        dropCargoInfo(state, payload) {
             state.board.splice(payload, 1)
-            console.log("addPackage: new board = %s", JSON.stringify(state.board))
+            console.log("dropCargoInfo: new board = %s", JSON.stringify(state.board))
         }
     }
 })

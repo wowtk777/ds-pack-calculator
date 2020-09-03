@@ -22,7 +22,7 @@
         },
         methods: {
             onClick() {
-                this.$store.commit("dropPackage", this.index)
+                this.$store.commit("dropCargoInfo", this.index)
             }
         }
     }

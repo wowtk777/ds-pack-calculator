@@ -68,11 +68,11 @@
         name: 'ResultGrid',
         methods: {
             onClick: function () {
-                let cargoInfo = this.cargoInfo;
+                let material = store.getters.material
+                let packages = this.cargoInfo.packages.filter(p => p.count)
+                let cargoInfo = {...this.cargoInfo, material, packages}
                 delete cargoInfo.overResources
-                cargoInfo.material = store.getters.material
-                cargoInfo.packages = cargoInfo.packages.filter(p => p.count)
-                store.commit('addPackage', cargoInfo)
+                store.commit('addCargoInfo', cargoInfo)
             }
         },
         computed: {
@@ -89,15 +89,14 @@
 
                 let packages = []
                 for (let packageInfo of preparePackages.packageInfos) {
-                    let amount = packageInfo.amount
-                    let count = Math.floor(resourcesLeft / amount)
-                    packages.push({count, ...packageInfo})
-                    resourcesLeft = resourcesLeft - amount * count
-                    weight += packageInfo.weight * count
-                    volumeSize += packageInfo.volumeSize * count
+                    let {deltaAmount, deltaWeight, deltaVolumeSize} = packageInfo.setupCount(resourcesLeft)
+                    packages.push(packageInfo)
+                    resourcesLeft -= deltaAmount
+                    weight += deltaWeight
+                    volumeSize += deltaVolumeSize
                 }
 
-                return {overResources, packages, weight, volumeSize}
+                return {overResources, weight, volumeSize, packages}
             }
         }
     }

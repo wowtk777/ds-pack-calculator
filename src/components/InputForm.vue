@@ -4,7 +4,7 @@
         <v-text-field label="Существующее количество" v-model="readyResources"/>
 
         <v-radio-group v-model="material">
-            <v-radio v-for="t of materials" :key="t.name" :label="t.name" :value="t"></v-radio>
+            <v-radio v-for="t of materials" :key="t.id" :label="t.name" :value="t"></v-radio>
         </v-radio-group>
     </v-form>
 </template>
